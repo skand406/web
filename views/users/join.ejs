@@ -1,0 +1,60 @@
+<style>
+    form span{
+        width: 100px;
+    }
+</style>
+<div class="row  my-5 justify-content-center">
+    <div class="col-6">
+        <h1 class="text-center">회원가입</h1>
+        <form name="frm" class="card p-3">
+            <div class="input-group mb-3">
+                <span class="input-group-text">이메일</span>
+                <input name="email" class="form-control" value="blue@test.com">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">비밀번호</span>
+                <input name="password" class="form-control" type="password" value="12345678">
+            </div>
+            <button class="btn btn-primary">가입</button>
+        </form>
+        <div class="text-end pt-2">
+            <a href="/users/login">로그인</a>
+        </div>
+    </div>
+</div>
+
+<script type="module"> //그냥 import 안됌
+    import { app } from "/javascripts/firebase.js"; //public이 root
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"; //cdn으로 불러왔기 때문에 
+
+    const auth=getAuth(app);
+
+    $(frm).on("submit",function(e){
+        e.preventDefault();//기본 이벤트 실행 방지
+        
+        const email = $(frm.email).val(); //const는 상수 바뀌지 않을 변수
+        const password = $(frm.password).val();
+        
+        //유효성체크 
+        if(!email.includes("@")){
+            alert("잘못된 이메일 형식입니다!");
+            //$(frm.email).val("");
+            $(frm.email).focus();
+        }else if(password.length < 8){    
+            alert("비밀번호sms 8자리 이상입니다!");
+            $(frm.password).focus();
+        }else{
+            //회원등록
+            //alert(email + password);
+            createUserWithEmailAndPassword(auth, email, password)
+            .then(success=>{
+                console.log(success);
+                alert("회원가입 되었습니다.");
+                location.href="/users/login";
+            }).catch(error=>{
+                console.log(error.message);
+                alert(error.message+"이미 가입된 회원입니다.");
+            });
+        }
+    })
+</script>
