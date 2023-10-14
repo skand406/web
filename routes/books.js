@@ -5,5 +5,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: '도서검색' ,pageName:'books/search.ejs'});
 });
-
+//장바구니 페이지로 이동
+router.get('/cart', function(req, res) { //next 생략 가능 
+  res.render('index', { title: '장바구니' ,pageName:'books/cart.ejs'});
+});
 module.exports = router;
