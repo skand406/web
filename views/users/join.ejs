@@ -50,7 +50,7 @@
             .then(success=>{
                 console.log(success);
                 alert("회원가입 되었습니다.");
-                location.href="/users/login";
+                location.href="/users/login"; //로그인 페이지 이동
             }).catch(error=>{
                 console.log(error.message);
                 alert(error.message+"이미 가입된 회원입니다.");

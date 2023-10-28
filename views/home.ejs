@@ -9,6 +9,7 @@
     }
     
 </style>
+
 <div class="row my-5">
     <div class="col">
         <h1 class="text-center">홈페이지</h1>
@@ -74,10 +75,11 @@
     import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"; //cdn으로 불러왔기 때문에 
 
     const db = getDatabase(app);
-
+    //초기 한번 실행
     let query =$(frm.query).val();
     let page = 1;
     getBooks();
+
     //장바구니를 클릭한 경우
     $("#div_books").on("click",".cart",async function(){ //클래스 네임 .cart
         if(!sessionStorage.getItem("email")){ // 로그인 안됨
@@ -105,7 +107,7 @@
         //alert(index);
     });
 
-
+    //검색 버튼을 누른 경우
     $(frm).on("submit",function(e){
         e.preventDefault();
         query=$(frm.query).val();
@@ -117,6 +119,7 @@
         page++;
         getBooks();
     })
+    //이전 버튼을 클릭한 경우
     $("#prev").on("click",function(){
         page--;
         getBooks();
@@ -129,8 +132,10 @@
             data:{query:query,page:page,size:6},
             success:function(result){
                 console.log(result);
+
                 let temp=Handlebars.compile($("#temp_books").html());
                 $("#div_books").html(temp(result));
+
                 let last = Math.ceil(result.meta.pageable_count/6);
                 $("#span_page").html(page+"/"+last);
 
