@@ -26,6 +26,7 @@
                 <td><a href="/posts/read?id={{id}}">{{title}}</a></td>
                 <td>{{email}}</td>
                 <td>{{data}}</td>
+                <td>댓글수:{{total}}</td>
             </tr>
         {{/each}}
     </table>
@@ -54,6 +55,7 @@
     async function getPosts(){
         const q =query(collection(db,'posts'),orderBy("date","desc"));
         const snapshot = await getDocs(q);
+
         $("#total").html(`<b>${snapshot.docs.length}</b>`);
         //console.log(snapshot.docs);
 
@@ -72,6 +74,10 @@
             const end =(page*size)-1;
             if(index>=start && index <=end){
                 const row={index: index+1,id:doc.id, ...doc.data()}
+                //const q_comment=query(collection(db,'comments'),where("pid","==",id));
+                //const snapshot_comment = await getDocs(q_comment);
+                //const total = snapshot.docs.length;
+                
                 rows.push(row);
             }
         });

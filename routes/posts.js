@@ -15,5 +15,9 @@ router.get('/read', function(req, res, next) {
   const id=req.query.id;
   res.render('index', { title: '게시글 정보', pageName: 'posts/read.ejs', id }); //id:id
 });
-
+/* 글수정 페이지 */
+router.get('/update', function(req, res, next) {
+  const id=req.query.id;
+  res.render('index', { title: '게시글 수정', pageName: 'posts/update.ejs', id }); //id:id
+});
 module.exports = router;
